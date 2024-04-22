@@ -1,4 +1,4 @@
-const User = require("../model/User.model");
+const User = require("./../model/User.model");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
@@ -20,8 +20,8 @@ exports.signup = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
     });
-    
 
+    
     //assign token to user
     const token = signToken(newUser._id);
 
@@ -43,16 +43,19 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-
 //log in a user
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
+
+
     //check if user provided email and password
     if (!email || !password) {
       res.status(401).json("Please provide email and password");
       return next(new Error("Please provide email and password"));
     }
+
+
     //check if user exist in the database and compare passwords
     const user = await User.findOne({ email });
     if (!user && !(await user.isValidPassword(password, user.password))) {
@@ -72,7 +75,6 @@ exports.login = async (req, res, next) => {
     throw err;
   }
 };
-
 
 //create an authenticate middleware that will protect routes
 exports.authenticate = async (req, res, next) => {
@@ -104,8 +106,6 @@ exports.authenticate = async (req, res, next) => {
     if (!currentUser)
       return next(res.status(401).json("User with this token does not exist"));
 
-      
-
     //Assign user to the req.user object
     req.user = currentUser;
     next();
@@ -113,3 +113,7 @@ exports.authenticate = async (req, res, next) => {
     res.json(err);
   }
 };
+
+
+
+

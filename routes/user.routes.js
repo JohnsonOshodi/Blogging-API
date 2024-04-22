@@ -1,18 +1,20 @@
 //import express
 const express = require('express');
 
-//import Post controller
-const postController = require("../controller/post.controller");
+//import user controller
+const userController = require("../controller/user.controller");
 
 //import authetication middleware
-const authController = require('../auth/user.auth')
+const authController = require('../auth/auth')
 
-//create router 
+//create router
 const router = express.Router();
 
-//API endpoint structure
-router.get('/', postController.getAllPublishedPost);
-router.get("/:postId", postController.getASinglePublishedPost);
-router.put("/:postId", authController.authenticate, postController.updateAPost); 
-router.delete("/:postId", authController.authenticate, postController.deleteAPost); 
+//API endpoint for an author
+router.get('/author', authController.authenticate, userController.getAllPosts);
+
+//API endpoint for signup and login
+router.post("/auth/signup", authController.signup)
+router.post("/auth/login", authController.login)
+
 module.exports = router;
