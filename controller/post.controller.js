@@ -30,6 +30,7 @@ exports.getASinglePublishedPost = async (req, res) => {
         message: "Post with given Id not found",
       });
     } else {
+      
       //increment the `readCount` property
       post.readCount === 0 ? post.readCount++ : post.readCount++;
       await post.save();
