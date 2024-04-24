@@ -1,23 +1,23 @@
-const express = require('express');
+const CONFIG = require('./config/config')
+const express = require('express')
+const errorHandler = require('./middleware/errorHandler')
+const signup = require('./routes/signup')
+const login = require('./controller/login')
+const blog = require('./routes/blog')
 
-//import post router and user router
-const postRouter = require('./routes/post.routes');
-const userRouter = require('./routes/user.routes')
-
-
-
-//create express app
-const app = express();
+const app = express()
 
 
-//add middleware to parse request body
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true }));
 
+// Parse information from request
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-//Middleware for API endpoints
-app.use("/api", userRouter)
-app.use("/api/posts", postRouter)
+app.use('/api/signup', signup)
+app.use('/api/login', login)
+app.use('/api/blog', blog)
 
+// Use error handler middleware
+app.use(errorHandler)
 
-module.exports = app;
+module.exports = app

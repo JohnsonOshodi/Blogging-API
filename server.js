@@ -1,17 +1,8 @@
-//import app
-const app = require('./app');
+const http = require('http')
+const app = require('./app')
+const { PORT } = require('./config/config')
+const connectToDB =require("./db/db")
 
-//import config module
-const CONFIG = require('./config/config');
-
-//import database connection function
-const connectToDB = require('./db/db');
-
-//invoke connecToDB function
-connectToDB();
-
-const PORT = process.env.PORT || 8080;
-
-app.listen(CONFIG.PORT, () => {
-    console.log(`Server is running on http://localhost:${CONFIG.PORT}`)
-})
+const server = http.createServer(app)
+connectToDB()
+server.listen(PORT, () => console.log(`Running in ${process.env.NODE_ENV} mode on port ${PORT}`))

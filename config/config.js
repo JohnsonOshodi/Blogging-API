@@ -1,8 +1,10 @@
-//import dotenv
-require('dotenv').config();
+require("dotenv").config();
+const DATABASE_CONNECT_STRING = process.env.DATABASE_CONNECT_STRING;
+const PORT = 8080 || process.env.PORT;
+const SECRET = process.env.SECRET;
 
-//add app config data
 module.exports = {
-  MONGODB_URL: process.env.MONGODB_URL,
-  PORT: process.env.PORT
-}
+  DATABASE_CONNECT_STRING,
+  PORT,
+  SECRET,
+};

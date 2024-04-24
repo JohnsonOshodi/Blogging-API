@@ -1,22 +1,24 @@
-//import mongoose 
+//Import mongoose 
 const mongoose = require('mongoose');
 
-//import config file
+
+//Import config file
 const CONFIG = require("./../config/config");
 
-//database connection function
-function connectToDB(){
-    mongoose.connect(CONFIG.MONGODB_URL);
+//Database connection function
+async function connectToDB() { 
 
-    //Add event listener to test connection
-    mongoose.connection.on('connected', () => {
-        console.log('connection to DB successful')
-    })
-    //catch error
-    mongoose.connection.on("error", (err) => {
-        console.log('Connection to DB failed')
+    try{
+const DB =process.env.MONGODB_URI
+        await mongoose.connect(DB);
+
+        
+            console.log("Connected to the DB")
+      } 
+    catch(err){
         console.log(err)
-    })
-}
-//export database connection function
+    }}
+    
+
+//Export database connection function
 module.exports = connectToDB;
