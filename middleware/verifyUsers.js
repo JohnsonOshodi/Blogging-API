@@ -1,5 +1,6 @@
 const User = require('../model/User')
 const jwt = require('jsonwebtoken')
+const {promisify} =require('util')
 
 module.exports = async (req, res, next) => {
   try {
@@ -11,10 +12,11 @@ module.exports = async (req, res, next) => {
       throw new Error()
     }
     const bearerToken = authorization.substring(7)
-
+   
 
     // Decode bearer token
-    const userFromToken = jwt.verify(bearerToken, process.env.SECRET)
+    const userFromToken = await promisify (jwt.verify)(bearerToken, process.env.JWT_SECRET_KEY)
+    
     const user = await User.findById(userFromToken.id)
     if (!user) {
       throw new Error()

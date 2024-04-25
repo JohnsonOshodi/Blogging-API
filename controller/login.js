@@ -28,7 +28,7 @@ router.route('/').post(async (req, res, next) => {
     }
 
     const validityPeriod = '1h'
-    const token = jwt.sign(userForToken, SECRET, { expiresIn: validityPeriod })
+    const token = jwt.sign(userForToken, process.env.JWT_SECRET_KEY, { expiresIn: validityPeriod })
 
     res.json({ token, username: user.username, name: user.firstName })
   } catch (e) {
