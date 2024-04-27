@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { createBlog, getBlogs, getBlog } = require('../controller/blog')
+const { createBlog, getBlogs, getBlog, updateblog } = require('../controller/blog')
 const { filterAndSort, filterByPublished, list, setUserFilter } = require('../middleware/apiFeatures')
 const getUserFromToken = require('../middleware/verifyUsers')
 const pagination = require('../middleware/pagination')
@@ -11,6 +11,6 @@ router.route('/')
 router.route('/p')
   .get(getUserFromToken, filterAndSort, setUserFilter, pagination, getBlogs)
 
-router.route('/:id').get(getBlog)
+router.route('/:id').get(getBlog).patch(getUserFromToken, updateblog )
 
 module.exports = router

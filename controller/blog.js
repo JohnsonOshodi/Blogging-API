@@ -77,7 +77,7 @@ const getBlog = async (req, res, next) => {
     }
 
 
-
+  
     // Update blog read count
     blog.read_count += 1
     await blog.save()
@@ -92,8 +92,57 @@ const getBlog = async (req, res, next) => {
   }
 }
 
+const updateblog = async (req, res, next) => {
+  try {
+
+
+    const updatedarticle= {
+      ...req.body
+    
+    }
+    const { id } = req.params
+    const article= await Blog.findById(id)
+    const author= article.author
+    const authorid= req.user.id
+    console.log(authorid, author)
+    if (!article) {
+      return res.status(403).json({
+        status: false,
+        error: 'Requested article is not available',
+      })
+
+    }
+     if (authorid.toString() !== author.toString()) {
+      return res.status(403).json({
+        status: false,
+        error: 'You are not permitted to edit this article',
+      })
+    
+    }
+    Object.assign(article, updatedarticle)
+
+    const savedarticle =await article.save()
+
+    return res.status(200).json({
+      status: "success",
+      message: savedarticle
+      
+    })}
+    
+    catch(error) {
+      return res.status(403).json({
+        status: false,
+        error: error.message
+      })
+    }}
+
+
+    
+
 module.exports = {
   createBlog,
   getBlogs,
   getBlog,
+  updateblog
+
 }
